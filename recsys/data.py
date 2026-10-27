@@ -38,8 +38,12 @@ class Dataset:
 
     def save(self, path: Path):
         Path(path).parent.mkdir(parents=True, exist_ok=True)
+        obj = self
+        if type(self).__module__ == "__main__":  # `python -m recsys.data` would pickle __main__.Dataset
+            from recsys.data import Dataset as canonical
+            obj = canonical(**self.__dict__)
         with open(path, "wb") as f:
-            pickle.dump(self, f)
+            pickle.dump(obj, f)
 
     @staticmethod
     def load(path: Path) -> "Dataset":

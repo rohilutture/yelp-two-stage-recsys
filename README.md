@@ -20,14 +20,17 @@ business info ─► item tower ─┘                                          
 
 ## Results on Yelp
 
-> Run on your machine and paste `artifacts/REPORT.md` here.
+Pennsylvania subset, 39,622 test users, 17,388 businesses, 100 retrieved candidates per user. Run on CPU (AMD Ryzen 7 5800H, 16 GB RAM), about 13 minutes for training plus evaluation (8 epochs). Full report in `artifacts/REPORT.md`.
 
 | Model | Recall@10 | NDCG@10 | MRR | Recall@100 | Coverage@10 |
 |---|---|---|---|---|---|
-| Popularity | _TBD_ | _TBD_ | _TBD_ | _TBD_ | _TBD_ |
-| Two-tower | _TBD_ | _TBD_ | _TBD_ | _TBD_ | _TBD_ |
-| + LightGBM | _TBD_ | _TBD_ | _TBD_ | (same) | _TBD_ |
-| + DCN-v2 | _TBD_ | _TBD_ | _TBD_ | (same) | _TBD_ |
+| Popularity | 0.0234 | 0.0135 | 0.0127 | 0.0903 | 0.002 |
+| Two-tower | 0.0473 | 0.0250 | 0.0231 | 0.2049 | 0.2765 |
+| + LightGBM | 0.0527 | 0.0278 | 0.0252 | (same) | 0.3613 |
+| + DCN-v2 | 0.0614 | 0.0327 | 0.0289 | (same) | 0.2875 |
+
+- HNSW reaches 0.992 recall against exact search at efSearch=128 (about 13.6K QPS on CPU).
+- Simulated A/B (two-tower vs. + LightGBM): CTR 0.0247 to 0.0294 (+19% relative, p = 0.004), SRM p = 0.79, A/A false-positive rate 0.02. The clicks are simulated with a position-bias model, not real traffic.
 
 <details><summary>Sanity run on the built-in synthetic dataset (CPU, ~30 s). Not a real-data claim.</summary>
 
